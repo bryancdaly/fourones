@@ -1,0 +1,10 @@
+.App {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.App-header {
+    background-color: #282c34;
+    padding: 20px;
+    color: white;
+}
