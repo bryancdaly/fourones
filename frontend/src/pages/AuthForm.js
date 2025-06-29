@@ -1,4 +1,5 @@
 ﻿import React, { useState } from 'react';
+import Logo from '../components/Logo';
 
 const AuthForm = ({ type, setCurrentView }) => {
     const [formData, setFormData] = useState({
@@ -41,21 +42,7 @@ const AuthForm = ({ type, setCurrentView }) => {
                     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
                 }}>
                     <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                        <div style={{
-                            width: '60px',
-                            height: '60px',
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                            borderRadius: '12px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            margin: '0 auto 1rem auto',
-                            color: 'white',
-                            fontSize: '1.5rem',
-                            fontWeight: 'bold'
-                        }}>
-                            4¹
-                        </div>
+                        <Logo size="medium" />
                         <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#2d3748' }}>
                             {type === 'login' ? 'Welcome Back' : 'Create Account'}
                         </h2>
