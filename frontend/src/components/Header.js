@@ -5,7 +5,7 @@ const Header = ({ currentView, setCurrentView }) => {
     return (
         <header style={{
             backgroundColor: '#ffffff',
-            padding: '1rem',
+            padding: '0.75rem 1rem',
             borderBottom: '1px solid #e2e8f0',
             position: 'sticky',
             top: 0,
@@ -17,30 +17,33 @@ const Header = ({ currentView, setCurrentView }) => {
                 margin: '0 auto',
                 display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: 'center'
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '1rem'
             }}>
-                <div
+                {/* Brand: Logo + Text */}
+                <button
+                    onClick={() => setCurrentView('home')}
                     style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '0.75rem',
-                        cursor: 'pointer'
+                        gap: '0.5rem',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: 0
                     }}
-                    onClick={() => setCurrentView('home')}
                 >
-                    <Logo size="default" />
-                    <span style={{
-                        fontSize: '24px',
-                        fontWeight: '700',
-                        color: '#1a202c',
-                        fontFamily: 'Inter, sans-serif',
-                        letterSpacing: '-0.025em'
-                    }}>
-                        Four Ones
-                    </span>
-                </div>
+                    <Logo size="default" showText={true} />
+                </button>
 
-                <nav style={{ display: 'flex', gap: '2rem' }}>
+                {/* Navigation */}
+                <nav style={{
+                    display: 'flex',
+                    gap: '1.5rem',
+                    flexWrap: 'wrap',
+                    alignItems: 'center'
+                }}>
                     <button
                         onClick={() => setCurrentView('browse')}
                         style={{
@@ -83,9 +86,6 @@ const Header = ({ currentView, setCurrentView }) => {
                     >
                         List Your Space
                     </button>
-                </nav>
-
-                <div style={{ display: 'flex', gap: '1rem' }}>
                     <button
                         onClick={() => setCurrentView('login')}
                         style={{
@@ -106,7 +106,7 @@ const Header = ({ currentView, setCurrentView }) => {
                             backgroundColor: '#667eea',
                             color: 'white',
                             border: 'none',
-                            padding: '10px 20px',
+                            padding: '8px 18px',
                             borderRadius: '8px',
                             cursor: 'pointer',
                             fontSize: '16px',
@@ -116,10 +116,13 @@ const Header = ({ currentView, setCurrentView }) => {
                     >
                         Sign Up
                     </button>
-                </div>
+                </nav>
             </div>
-        </header>
-    );
-};
-
-export default Header;
+            {/* Responsive styles */}
+            <style>
+                {`
+                @media (max-width: 700px) {
+                    header > div {
+                        flex-direction: column;
+                        align-items: stretch !important;
+                        gap: 0.5rem 
