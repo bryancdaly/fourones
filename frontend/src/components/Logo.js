@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../assets/logo.png'; // Adjust if you used a different file name or extension
 
 const Logo = ({ size = 'default', showText = true }) => {
     // Define sizes for different use cases
@@ -13,21 +14,17 @@ const Logo = ({ size = 'default', showText = true }) => {
 
     return (
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{
-                width: `${box}px`,
-                height: `${box}px`,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                borderRadius: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontSize: `${font}px`,
-                fontWeight: 'bold',
-                fontFamily: 'Inter, sans-serif'
-            }}>
-                4¹
-            </div>
+            <img
+                src={logo}
+                alt="Four Ones Logo"
+                style={{
+                    width: `${box}px`,
+                    height: `${box}px`,
+                    objectFit: 'contain',
+                    borderRadius: '8px',
+                    background: 'transparent'
+                }}
+            />
             {showText && (
                 <span style={{
                     fontSize: `${font}px`,
