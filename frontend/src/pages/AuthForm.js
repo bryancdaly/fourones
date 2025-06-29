@@ -34,16 +34,29 @@ const AuthForm = ({ type, setCurrentView }) => {
             justifyContent: 'center',
             padding: '2rem'
         }}>
-            <div style={{ maxWidth: '400px', width: '100%' }}>
-                <div style={{
-                    backgroundColor: 'white',
-                    borderRadius: '12px',
-                    padding: '2rem',
-                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-                }}>
+            <div
+                style={{
+                    maxWidth: '400px',
+                    width: '100%',
+                    margin: '0 auto'
+                }}
+            >
+                <div
+                    style={{
+                        backgroundColor: 'white',
+                        borderRadius: '12px',
+                        padding: '2rem',
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                    }}
+                >
                     <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                         <Logo size="medium" />
-                        <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#2d3748' }}>
+                        <h2 style={{
+                            fontSize: '1.75rem',
+                            fontWeight: 'bold',
+                            marginBottom: '0.5rem',
+                            color: '#2d3748'
+                        }}>
                             {type === 'login' ? 'Welcome Back' : 'Create Account'}
                         </h2>
                         <p style={{ color: '#666' }}>
@@ -54,7 +67,11 @@ const AuthForm = ({ type, setCurrentView }) => {
                     <form onSubmit={handleSubmit}>
                         {type === 'signup' && (
                             <div style={{ marginBottom: '1rem' }}>
-                                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>Full Name</label>
+                                <label style={{
+                                    display: 'block',
+                                    marginBottom: '0.5rem',
+                                    fontWeight: '500'
+                                }}>Full Name</label>
                                 <input
                                     type="text"
                                     name="name"
@@ -74,7 +91,11 @@ const AuthForm = ({ type, setCurrentView }) => {
                         )}
 
                         <div style={{ marginBottom: '1rem' }}>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>Email</label>
+                            <label style={{
+                                display: 'block',
+                                marginBottom: '0.5rem',
+                                fontWeight: '500'
+                            }}>Email</label>
                             <input
                                 type="email"
                                 name="email"
@@ -93,7 +114,11 @@ const AuthForm = ({ type, setCurrentView }) => {
                         </div>
 
                         <div style={{ marginBottom: '1rem' }}>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>Password</label>
+                            <label style={{
+                                display: 'block',
+                                marginBottom: '0.5rem',
+                                fontWeight: '500'
+                            }}>Password</label>
                             <input
                                 type="password"
                                 name="password"
@@ -113,7 +138,11 @@ const AuthForm = ({ type, setCurrentView }) => {
 
                         {type === 'signup' && (
                             <div style={{ marginBottom: '1rem' }}>
-                                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>Account Type</label>
+                                <label style={{
+                                    display: 'block',
+                                    marginBottom: '0.5rem',
+                                    fontWeight: '500'
+                                }}>Account Type</label>
                                 <select
                                     name="accountType"
                                     value={formData.accountType}
@@ -137,23 +166,30 @@ const AuthForm = ({ type, setCurrentView }) => {
                                 display: 'flex',
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
-                                marginBottom: '1.5rem'
+                                marginBottom: '1.5rem',
+                                flexWrap: 'wrap'
                             }}>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                <label style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    fontSize: '0.9rem'
+                                }}>
                                     <input
                                         type="checkbox"
                                         name="rememberMe"
                                         checked={formData.rememberMe}
                                         onChange={handleInputChange}
                                     />
-                                    <span style={{ fontSize: '0.9rem' }}>Remember me</span>
+                                    <span>Remember me</span>
                                 </label>
                                 <button type="button" style={{
                                     background: 'none',
                                     border: 'none',
                                     color: '#667eea',
                                     cursor: 'pointer',
-                                    fontSize: '0.9rem'
+                                    fontSize: '0.9rem',
+                                    marginTop: '0.5rem'
                                 }}>
                                     Forgot password?
                                 </button>
@@ -209,6 +245,21 @@ const AuthForm = ({ type, setCurrentView }) => {
                     </div>
                 </div>
             </div>
+            <style>
+                {`
+                @media (max-width: 500px) {
+                    .auth-form-container {
+                        padding: 0.5rem !important;
+                    }
+                    .auth-form-inner {
+                        padding: 1rem !important;
+                    }
+                    .auth-form-logo {
+                        margin-bottom: 1rem !important;
+                    }
+                }
+                `}
+            </style>
         </div>
     );
 };
