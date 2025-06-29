@@ -27,38 +27,6 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
         setShowServices(true);
     };
 
-    const handleServiceRequest = (serviceRequest) => {
-        console.log('Service request submitted:', serviceRequest);
-        setShowServices(false);
-        onClose();
-    };
-
-    const GoogleMap = () => (
-        <div style={{
-            height: '200px',
-            backgroundColor: '#f0f0f0',
-            borderRadius: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23e2e8f0" fill-opacity="0.4"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E")',
-            marginBottom: '1rem'
-        }}>
-            <div style={{
-                position: 'absolute',
-                backgroundColor: '#667eea',
-                color: 'white',
-                padding: '0.5rem 1rem',
-                borderRadius: '20px',
-                fontSize: '0.875rem',
-                fontWeight: '600'
-            }}>
-                📍 {space.location}
-            </div>
-        </div>
-    );
-
     return (
         <div className="space-modal-overlay" style={{
             position: 'fixed',
@@ -100,6 +68,7 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                             padding: 0;
                         }
                         .space-modal-content {
+                            height: 100vh;
                             max-height: 100vh;
                             border-radius: 0;
                         }
@@ -114,11 +83,18 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                             grid-template-columns: 1fr !important;
                         }
                         .booking-section {
-                            position: static !important;
-                            margin-top: 1rem;
+                            position: fixed !important;
+                            bottom: 0 !important;
+                            left: 0 !important;
+                            right: 0 !important;
+                            margin: 0 !important;
+                            border-radius: 16px 16px 0 0 !important;
+                            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+                            z-index: 100;
                         }
                         .details-section {
                             padding: 1rem !important;
+                            padding-bottom: 200px !important;
                         }
                         .amenities-grid {
                             grid-template-columns: repeat(2, 1fr) !important;
@@ -126,38 +102,54 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                         .price-grid {
                             grid-template-columns: repeat(2, 1fr) !important;
                         }
+                        .close-button {
+                            top: 0.5rem !important;
+                            right: 0.5rem !important;
+                        }
+                        .favorite-button {
+                            top: 0.5rem !important;
+                            right: 3.5rem !important;
+                        }
                     }
                     `}
                 </style>
 
                 {/* Close & Favorite Buttons */}
-                <button onClick={onClose} style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    right: '1rem',
-                    background: 'rgba(0, 0, 0, 0.1)',
-                    border: 'none',
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    cursor: 'pointer',
-                    fontSize: '1.5rem',
-                    zIndex: 1001
-                }}>×</button>
+                <button
+                    onClick={onClose}
+                    className="close-button"
+                    style={{
+                        position: 'absolute',
+                        top: '1rem',
+                        right: '1rem',
+                        background: 'rgba(0, 0, 0, 0.1)',
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        cursor: 'pointer',
+                        fontSize: '1.5rem',
+                        zIndex: 1001
+                    }}
+                >×</button>
 
-                <button onClick={(e) => toggleFavorite(space.id, e)} style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    right: '4rem',
-                    background: 'rgba(255, 255, 255, 0.9)',
-                    border: 'none',
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    cursor: 'pointer',
-                    fontSize: '1.2rem',
-                    zIndex: 1001
-                }}>
+                <button
+                    onClick={(e) => toggleFavorite(space.id, e)}
+                    className="favorite-button"
+                    style={{
+                        position: 'absolute',
+                        top: '1rem',
+                        right: '4rem',
+                        background: 'rgba(255, 255, 255, 0.9)',
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        cursor: 'pointer',
+                        fontSize: '1.2rem',
+                        zIndex: 1001
+                    }}
+                >
                     {favorites?.includes(space.id) ? '❤️' : '🤍'}
                 </button>
 
@@ -216,7 +208,124 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                                 color: '#1a202c'
                             }}>{space.title}</h1>
 
-                            {/* Rest of the content... */}
+                            <p style={{
+                                color: '#667eea',
+                                fontSize: '1.1rem',
+                                marginBottom: '1rem'
+                            }}>
+                                {space.category}
+                            </p>
+
+                            <p style={{
+                                color: '#718096',
+                                marginBottom: '2rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem'
+                            }}>
+                                📍 {space.location}
+                            </p>
+
+                            <div style={{ marginBottom: '2rem' }}>
+                                <h3 style={{
+                                    fontSize: '1.25rem',
+                                    fontWeight: '600',
+                                    marginBottom: '1rem',
+                                    color: '#1a202c'
+                                }}>
+                                    About This Space
+                                </h3>
+                                <p style={{
+                                    color: '#4a5568',
+                                    lineHeight: '1.6'
+                                }}>
+                                    {space.description || 'This beautiful space offers everything you need for your next event or pop-up. With modern amenities and flexible layouts, it\'s perfect for creative professionals and businesses looking to make an impact.'}
+                                </p>
+                            </div>
+
+                            <div style={{ marginBottom: '2rem' }}>
+                                <h3 style={{
+                                    fontSize: '1.25rem',
+                                    fontWeight: '600',
+                                    marginBottom: '1rem',
+                                    color: '#1a202c'
+                                }}>
+                                    Amenities
+                                </h3>
+                                <div className="amenities-grid" style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(3, 1fr)',
+                                    gap: '0.5rem'
+                                }}>
+                                    {space.amenities?.map((amenity, index) => (
+                                        <span key={index} style={{
+                                            backgroundColor: '#f0f4ff',
+                                            color: '#4338ca',
+                                            padding: '0.5rem 1rem',
+                                            borderRadius: '6px',
+                                            fontSize: '0.9rem',
+                                            textAlign: 'center'
+                                        }}>
+                                            {amenity}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div style={{ marginBottom: '2rem' }}>
+                                <h3 style={{
+                                    fontSize: '1.25rem',
+                                    fontWeight: '600',
+                                    marginBottom: '1rem',
+                                    color: '#1a202c'
+                                }}>
+                                    Space Details
+                                </h3>
+                                <div style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: '1fr 1fr',
+                                    gap: '1rem'
+                                }}>
+                                    <div style={{
+                                        padding: '1rem',
+                                        backgroundColor: '#f7fafc',
+                                        borderRadius: '6px'
+                                    }}>
+                                        <div style={{
+                                            fontSize: '1.5rem',
+                                            fontWeight: 'bold',
+                                            color: '#1a202c'
+                                        }}>
+                                            {space.capacity}
+                                        </div>
+                                        <div style={{
+                                            fontSize: '0.9rem',
+                                            color: '#718096'
+                                        }}>
+                                            People Capacity
+                                        </div>
+                                    </div>
+                                    <div style={{
+                                        padding: '1rem',
+                                        backgroundColor: '#f7fafc',
+                                        borderRadius: '6px'
+                                    }}>
+                                        <div style={{
+                                            fontSize: '1.5rem',
+                                            fontWeight: 'bold',
+                                            color: '#1a202c'
+                                        }}>
+                                            {space.rating}★
+                                        </div>
+                                        <div style={{
+                                            fontSize: '0.9rem',
+                                            color: '#718096'
+                                        }}>
+                                            Average Rating
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Right Column - Booking */}
@@ -227,7 +336,15 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                             position: 'sticky',
                             top: '1rem'
                         }}>
-                            {/* Pricing Grid */}
+                            <h4 style={{
+                                fontSize: '1.125rem',
+                                fontWeight: '600',
+                                marginBottom: '1rem',
+                                color: '#1a202c'
+                            }}>
+                                Choose Duration
+                            </h4>
+
                             <div className="price-grid" style={{
                                 display: 'grid',
                                 gridTemplateColumns: 'repeat(2, 1fr)',
@@ -249,15 +366,24 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                                         <div style={{ fontWeight: '600' }}>
                                             ${Math.round(space.price * duration.multiplier)}
                                         </div>
-                                        <div style={{ fontSize: '0.75rem', color: '#718096' }}>
+                                        <div style={{
+                                            fontSize: '0.75rem',
+                                            color: '#718096'
+                                        }}>
                                             per {duration.label.toLowerCase()}
                                         </div>
                                     </button>
                                 ))}
                             </div>
 
-                            {/* Booking Actions */}
                             <div style={{ marginTop: '1rem' }}>
+                                <label style={{
+                                    display: 'block',
+                                    marginBottom: '0.5rem',
+                                    fontWeight: '500'
+                                }}>
+                                    Start Date
+                                </label>
                                 <input
                                     type="date"
                                     value={startDate}
@@ -290,9 +416,10 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    );
-};
 
-export default SpaceModal;
+                {showServices && (
+                    <ServiceProviders
+                        bookingDetails={{
+                            space,
+                            duration: bookingDuration,
+                            startDate,
