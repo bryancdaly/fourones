@@ -21,7 +21,7 @@ const Header = ({ currentView, setCurrentView }) => {
                 flexWrap: 'wrap',
                 gap: '1rem'
             }}>
-                {/* Brand: Logo + Text */}
+                {/* Brand: Logo + Text (only once) */}
                 <button
                     onClick={() => setCurrentView('home')}
                     style={{
@@ -125,4 +125,18 @@ const Header = ({ currentView, setCurrentView }) => {
                     header > div {
                         flex-direction: column;
                         align-items: stretch !important;
-                        gap: 0.5rem 
+                        gap: 0.5rem !important;
+                    }
+                    nav {
+                        justify-content: flex-start !important;
+                        gap: 0.75rem !important;
+                        flex-wrap: wrap;
+                    }
+                }
+                `}
+            </style>
+        </header>
+    );
+};
+
+export default Header;
