@@ -27,6 +27,49 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
         setShowServices(true);
     };
 
+    const handleServiceRequest = (serviceRequest) => {
+        console.log('Service request submitted:', serviceRequest);
+        setShowServices(false);
+        onClose();
+    };
+
+    const GoogleMap = () => (
+        <div style={{
+            height: '200px',
+            backgroundColor: '#f0f0f0',
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+            backgroundImage: "url('data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"%23e2e8f0\" fill-opacity=\"0.4\"%3E%3Ccircle cx=\"3\" cy=\"3\" r=\"3\"/%3E%3Ccircle cx=\"13\" cy=\"13\" r=\"3\"/%3E%3C/g%3E%3C/svg%3E')",            marginBottom: '1rem'
+        }}>
+            <div style={{
+                position: 'absolute',
+                backgroundColor: '#667eea',
+                color: 'white',
+                padding: '0.5rem 1rem',
+                borderRadius: '20px',
+                fontSize: '0.875rem',
+                fontWeight: '600'
+            }}>
+                📍 {space.location}
+            </div>
+            <div style={{
+                position: 'absolute',
+                top: '0.5rem',
+                right: '0.5rem',
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                padding: '0.25rem 0.5rem',
+                borderRadius: '4px',
+                fontSize: '0.75rem',
+                color: '#666'
+            }}>
+                🗺️ Google Maps
+            </div>
+        </div>
+    );
+
     return (
         <div className="space-modal-overlay" style={{
             position: 'fixed',
@@ -62,13 +105,11 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                         from { transform: translateY(30px); opacity: 0; }
                         to { transform: translateY(0); opacity: 1; }
                     }
-                    
                     @media (max-width: 768px) {
                         .space-modal-overlay {
                             padding: 0;
                         }
                         .space-modal-content {
-                            height: 100vh;
                             max-height: 100vh;
                             border-radius: 0;
                         }
@@ -77,24 +118,17 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                             gap: 1rem !important;
                         }
                         .image-gallery {
-                            height: 250px !important;
+                            height: 220px !important;
                         }
                         .gallery-grid {
                             grid-template-columns: 1fr !important;
                         }
                         .booking-section {
-                            position: fixed !important;
-                            bottom: 0 !important;
-                            left: 0 !important;
-                            right: 0 !important;
-                            margin: 0 !important;
-                            border-radius: 16px 16px 0 0 !important;
-                            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
-                            z-index: 100;
+                            position: static !important;
+                            margin-top: 1rem;
                         }
                         .details-section {
                             padding: 1rem !important;
-                            padding-bottom: 200px !important;
                         }
                         .amenities-grid {
                             grid-template-columns: repeat(2, 1fr) !important;
@@ -102,54 +136,38 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                         .price-grid {
                             grid-template-columns: repeat(2, 1fr) !important;
                         }
-                        .close-button {
-                            top: 0.5rem !important;
-                            right: 0.5rem !important;
-                        }
-                        .favorite-button {
-                            top: 0.5rem !important;
-                            right: 3.5rem !important;
-                        }
                     }
                     `}
                 </style>
 
                 {/* Close & Favorite Buttons */}
-                <button
-                    onClick={onClose}
-                    className="close-button"
-                    style={{
-                        position: 'absolute',
-                        top: '1rem',
-                        right: '1rem',
-                        background: 'rgba(0, 0, 0, 0.1)',
-                        border: 'none',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        cursor: 'pointer',
-                        fontSize: '1.5rem',
-                        zIndex: 1001
-                    }}
-                >×</button>
+                <button onClick={onClose} style={{
+                    position: 'absolute',
+                    top: '1rem',
+                    right: '1rem',
+                    background: 'rgba(0, 0, 0, 0.1)',
+                    border: 'none',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    cursor: 'pointer',
+                    fontSize: '1.5rem',
+                    zIndex: 1001
+                }}>×</button>
 
-                <button
-                    onClick={(e) => toggleFavorite(space.id, e)}
-                    className="favorite-button"
-                    style={{
-                        position: 'absolute',
-                        top: '1rem',
-                        right: '4rem',
-                        background: 'rgba(255, 255, 255, 0.9)',
-                        border: 'none',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        cursor: 'pointer',
-                        fontSize: '1.2rem',
-                        zIndex: 1001
-                    }}
-                >
+                <button onClick={(e) => toggleFavorite(space.id, e)} style={{
+                    position: 'absolute',
+                    top: '1rem',
+                    right: '4rem',
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    border: 'none',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    cursor: 'pointer',
+                    fontSize: '1.2rem',
+                    zIndex: 1001
+                }}>
                     {favorites?.includes(space.id) ? '❤️' : '🤍'}
                 </button>
 
@@ -207,7 +225,6 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                                 marginBottom: '0.5rem',
                                 color: '#1a202c'
                             }}>{space.title}</h1>
-
                             <p style={{
                                 color: '#667eea',
                                 fontSize: '1.1rem',
@@ -215,7 +232,6 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                             }}>
                                 {space.category}
                             </p>
-
                             <p style={{
                                 color: '#718096',
                                 marginBottom: '2rem',
@@ -225,6 +241,19 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                             }}>
                                 📍 {space.location}
                             </p>
+
+                            {/* Google Map */}
+                            <div style={{ marginBottom: '2rem' }}>
+                                <h3 style={{
+                                    fontSize: '1.25rem',
+                                    fontWeight: '600',
+                                    marginBottom: '1rem',
+                                    color: '#1a202c'
+                                }}>
+                                    Location
+                                </h3>
+                                <GoogleMap />
+                            </div>
 
                             <div style={{ marginBottom: '2rem' }}>
                                 <h3 style={{
@@ -422,4 +451,14 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                         bookingDetails={{
                             space,
                             duration: bookingDuration,
-                            startDate,
+                            startDate
+                        }}
+                        onServiceRequest={handleServiceRequest}
+                    />
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default SpaceModal;
