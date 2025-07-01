@@ -1,12 +1,12 @@
 ﻿import React, { useState } from 'react';
 import Logo from '../components/Logo';
 
-const AuthForm = ({ type, setCurrentView }) => {
+const AuthForm = ({ type, setCurrentView, defaultAccountType = 'hirer' }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
-        accountType: 'hirer',
+        accountType: defaultAccountType,
         rememberMe: false
     });
 
@@ -157,6 +157,7 @@ const AuthForm = ({ type, setCurrentView }) => {
                                 >
                                     <option value="hirer">Space Hirer</option>
                                     <option value="provider">Space Provider</option>
+                                    <option value="service">Service Provider</option>
                                 </select>
                             </div>
                         )}
