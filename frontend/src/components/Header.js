@@ -87,6 +87,20 @@ const Header = ({ currentView, setCurrentView }) => {
                         List Your Space
                     </button>
                     <button
+                        onClick={() => setCurrentView('service-signup')}
+                        style={{
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            fontSize: '16px',
+                            color: currentView === 'service-signup' ? '#667eea' : '#4a5568',
+                            fontWeight: currentView === 'service-signup' ? '600' : '500',
+                            fontFamily: 'Inter, sans-serif'
+                        }}
+                    >
+                        Offer Services
+                    </button>
+                    <button
                         onClick={() => setCurrentView('login')}
                         style={{
                             background: 'none',
