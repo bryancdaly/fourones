@@ -126,12 +126,14 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                             gap: 1rem !important;
                         }
                         .booking-section {
-                            position: sticky !important;
+                            position: fixed !important;
                             bottom: 0 !important;
-                            background: white !important;
-                            margin: 0 -1rem !important;
-                            padding: 1rem !important;
+                            left: 0 !important;
+                            right: 0 !important;
+                            background: #f8fafc !important;
+                            padding: 1.5rem !important;
                             box-shadow: 0 -4px 12px rgba(0,0,0,0.1) !important;
+                            z-index: 1001 !important;
                         }
                     }
                     `}
@@ -216,10 +218,12 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
 
                             {/* Image Gallery */}
                             <div className="image-gallery" style={{
-                                width: '100%',
-                                overflowX: 'auto',
-                                whiteSpace: 'nowrap',
-                                marginBottom: '1.5rem'
+                                display: 'flex',
+                                overflowX: 'scroll',
+                                gap: '1rem',
+                                marginBottom: '1.5rem',
+                                paddingBottom: '1rem',
+                                scrollbarWidth: 'none' // Hide scrollbar for modern browsers
                             }}>
                                 {space.images && space.images.map((img, idx) => (
                                     <img
@@ -227,12 +231,12 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                                         src={img}
                                         alt={`Space photo ${idx + 1}`}
                                         style={{
-                                            display: 'inline-block',
-                                            width: '300px',
+                                            flex: '0 0 auto',
+                                            width: '100%',
+                                            maxWidth: '300px',
                                             height: '200px',
                                             objectFit: 'cover',
-                                            borderRadius: '12px',
-                                            marginRight: '1rem'
+                                            borderRadius: '12px'
                                         }}
                                     />
                                 ))}
@@ -350,8 +354,12 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                             backgroundColor: '#f8fafc',
                             padding: '1.5rem',
                             borderRadius: '12px',
-                            position: 'sticky',
-                            top: '1rem'
+                            position: 'fixed',
+                            bottom: '0',
+                            left: '0',
+                            right: '0',
+                            boxShadow: '0 -4px 12px rgba(0,0,0,0.1)',
+                            zIndex: 1001
                         }}>
                             <h4 style={{
                                 fontSize: '1.125rem',
@@ -410,7 +418,18 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                                         value={startDate}
                                         onChange={(e) => setStartDate(e.target.value)}
                                         min={new Date().toISOString().split('T')[0]}
-                                        style={selectStyle}
+                                        style={{
+                                            width: '100%',
+                                            padding: '0.75rem 2.5rem 0.75rem 1rem',
+                                            borderRadius: '6px',
+                                            border: '1px solid #e2e8f0',
+                                            fontSize: '1.1rem',
+                                            appearance: 'none',
+                                            WebkitAppearance: 'none',
+                                            MozAppearance: 'none',
+                                            background: 'white',
+                                            color: '#1a202c'
+                                        }}
                                     />
                                     <span style={{
                                         position: 'absolute',
