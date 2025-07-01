@@ -7,6 +7,7 @@ import HowItWorks from './pages/HowItWorks';
 import HostSpace from './pages/HostSpace';
 import AuthForm from './pages/AuthForm';
 import { featuredSpaces } from './data/mockData';
+import { formatCurrency } from './utils/format';
 import './App.css';
 
 function App() {
@@ -139,7 +140,7 @@ function App() {
                                                         color: '#1a202c',
                                                         fontFamily: 'Inter, sans-serif'
                                                     }}>
-                                                        ${space.price}
+                                                        {formatCurrency(space.price)}
                                                     </span>
                                                     <span style={{
                                                         color: '#718096',

@@ -1,4 +1,5 @@
-﻿import React from 'react';
+import React from 'react';
+import Logo from './Logo';
 
 const Footer = ({ setCurrentView }) => {
     return (
@@ -17,22 +18,8 @@ const Footer = ({ setCurrentView }) => {
                 }}>
                     {/* Company Info */}
                     <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-                            <div style={{
-                                width: '32px',
-                                height: '32px',
-                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                                borderRadius: '6px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'white',
-                                fontWeight: 'bold',
-                                fontSize: '14px'
-                            }}>
-                                4¹
-                            </div>
-                            <span style={{ fontSize: '20px', fontWeight: 'bold' }}>Four Ones</span>
+                        <div style={{ marginBottom: '1rem' }}>
+                            <Logo size="large" />
                         </div>
                         <p style={{ color: '#a0aec0', marginBottom: '1rem', lineHeight: '1.6' }}>
                             Connecting amazing spaces with creative people worldwide. Turn your vision into reality with the perfect venue.
