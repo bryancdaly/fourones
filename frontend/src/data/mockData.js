@@ -13,7 +13,9 @@ export const mockSpaces = [
             "https://images.unsplash.com/photo-1519167758481-83f29d8ae8e2?w=600&h=400&fit=crop"
         ],
         amenities: ["WiFi", "AV Equipment", "Climate Control", "Security System", "Parking"],
-        rating: 4.8
+        rating: 4.8,
+        latitude: -36.8485,
+        longitude: 174.7655
     },
     {
         id: 2,
@@ -28,7 +30,9 @@ export const mockSpaces = [
             "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&h=400&fit=crop"
         ],
         amenities: ["WiFi", "Parking", "Tools", "Loading Dock", "Natural Light"],
-        rating: 4.6
+        rating: 4.6,
+        latitude: -36.8551,
+        longitude: 174.7458
     },
     {
         id: 3,
@@ -43,7 +47,9 @@ export const mockSpaces = [
             "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=600&h=400&fit=crop"
         ],
         amenities: ["WiFi", "Security System", "Display Units", "Storage", "Street Frontage"],
-        rating: 4.9
+        rating: 4.9,
+        latitude: -36.8741,
+        longitude: 174.7769
     },
     {
         id: 4,
@@ -58,7 +64,9 @@ export const mockSpaces = [
             "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&h=400&fit=crop"
         ],
         amenities: ["WiFi", "Natural Light", "Parking", "Art Supplies Storage", "Easels"],
-        rating: 4.7
+        rating: 4.7,
+        latitude: -36.8541,
+        longitude: 174.7832
     },
     {
         id: 5,
@@ -73,7 +81,9 @@ export const mockSpaces = [
             "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop"
         ],
         amenities: ["WiFi", "AV Equipment", "Catering Kitchen", "Stage", "Green Room"],
-        rating: 4.8
+        rating: 4.8,
+        latitude: -36.8480,
+        longitude: 174.7625
     },
     {
         id: 6,
@@ -88,7 +98,9 @@ export const mockSpaces = [
             "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop"
         ],
         amenities: ["Sound System", "Mirrors", "Mats", "Changing Rooms", "Storage"],
-        rating: 4.5
+        rating: 4.5,
+        latitude: -36.8626,
+        longitude: 174.7383
     },
     {
         id: 7,
@@ -103,7 +115,9 @@ export const mockSpaces = [
             "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&h=400&fit=crop"
         ],
         amenities: ["WiFi", "Meeting Rooms", "Printing", "Coffee Bar", "Harbour Views"],
-        rating: 4.9
+        rating: 4.9,
+        latitude: -36.8418,
+        longitude: 174.7677
     },
     {
         id: 8,
@@ -118,7 +132,9 @@ export const mockSpaces = [
             "https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?w=600&h=400&fit=crop"
         ],
         amenities: ["Commercial Kitchen", "Dining Area", "Liquor License", "Outdoor Seating"],
-        rating: 4.6
+        rating: 4.6,
+        latitude: -36.8406,
+        longitude: 174.7516
     }
 ];
 

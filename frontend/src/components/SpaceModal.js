@@ -2,7 +2,7 @@
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import ServiceProviders from './ServiceProviders';
 
-const MAPS_API_KEY = 'AIzaSyD31NAQXFlL4rW-nZtJEx6ImfjBQAtXoJ0';
+const MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 const selectStyle = {
     width: '100%',

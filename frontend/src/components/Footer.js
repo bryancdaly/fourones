@@ -37,23 +37,6 @@ const Footer = ({ setCurrentView }) => {
                         <p style={{ color: '#a0aec0', marginBottom: '1rem', lineHeight: '1.6' }}>
                             Connecting amazing spaces with creative people worldwide. Turn your vision into reality with the perfect venue.
                         </p>
-                        <div style={{ display: 'flex', gap: '1rem' }}>
-                            {['📘', '🐦', '📸', '💼'].map((icon, index) => (
-                                <div key={index} style={{
-                                    width: '40px',
-                                    height: '40px',
-                                    backgroundColor: '#4a5568',
-                                    borderRadius: '6px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    fontSize: '1.2rem'
-                                }}>
-                                    {icon}
-                                </div>
-                            ))}
-                        </div>
                     </div>
 
                     {/* For Hirers */}

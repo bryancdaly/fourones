@@ -4,6 +4,8 @@ import SpaceModal from '../components/SpaceModal';
 import { mockSpaces } from '../data/mockData';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 
+const MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+
 const BrowseSpaces = ({ setCurrentView }) => {
     const [selectedSpace, setSelectedSpace] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,66 +55,62 @@ const BrowseSpaces = ({ setCurrentView }) => {
         );
     };
 
-    const MapView = () => (
-        <div style={{
-            height: '600px',
-            backgroundColor: '#f0f0f0',
-            borderRadius: '12px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23e2e8f0" fill-opacity="0.4"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E")'
-        }}>
-            <div style={{
-                position: 'absolute',
-                top: '1rem',
-                right: '1rem',
-                backgroundColor: 'white',
-                padding: '0.5rem',
-                borderRadius: '8px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                fontSize: '0.875rem',
-                color: '#666'
-            }}>
-                🗺️ Google Maps integration would go here
-            </div>
+    const MapView = () => {
+        const { isLoaded } = useJsApiLoader({
+            id: 'map-view-script',
+            googleMapsApiKey: MAPS_API_KEY
+        });
 
-            {/* Mock map pins for spaces */}
-            {spaces.map((space, index) => (
-                <div
-                    key={space.id}
-                    onClick={() => handleSpaceClick(space)}
-                    style={{
-                        position: 'absolute',
-                        left: `${20 + (index * 15)}%`,
-                        top: `${30 + (index * 10)}%`,
-                        backgroundColor: '#667eea',
-                        color: 'white',
-                        padding: '0.5rem 1rem',
-                        borderRadius: '20px',
-                        cursor: 'pointer',
-                        fontSize: '0.875rem',
-                        fontWeight: '600',
-                        boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)',
-                        transform: 'scale(1)',
-                        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                        animation: `fadeIn 0.6s ease ${index * 0.1}s both`
-                    }}
-                    onMouseEnter={(e) => {
-                        e.target.style.transform = 'scale(1.1)';
-                        e.target.style.boxShadow = '0 6px 16px rgba(102, 126, 234, 0.6)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.target.style.transform = 'scale(1)';
-                        e.target.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
-                    }}
-                >
-                    📍 ${space.price}/day
-                </div>
-            ))}
-        </div>
-    );
+        const containerStyle = {
+            width: '100%',
+            height: '600px',
+            borderRadius: '12px'
+        };
+
+        const defaultCenter = {
+            lat: spaces[0]?.latitude || -36.8485,
+            lng: spaces[0]?.longitude || 174.7633
+        };
+
+        return (
+            <div style={{ height: '600px' }}>
+                {isLoaded ? (
+                    <GoogleMap
+                        mapContainerStyle={containerStyle}
+                        center={defaultCenter}
+                        zoom={12}
+                        options={{
+                            fullscreenControl: false,
+                            streetViewControl: false,
+                            mapTypeControl: false
+                        }}
+                    >
+                        {spaces.map(space => (
+                            <Marker
+                                key={space.id}
+                                position={{
+                                    lat: space.latitude || defaultCenter.lat,
+                                    lng: space.longitude || defaultCenter.lng
+                                }}
+                                onClick={() => handleSpaceClick(space)}
+                            />
+                        ))}
+                    </GoogleMap>
+                ) : (
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            height: '100%'
+                        }}
+                    >
+                        Loading map...
+                    </div>
+                )}
+            </div>
+        );
+    };
 
     return (
         <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
