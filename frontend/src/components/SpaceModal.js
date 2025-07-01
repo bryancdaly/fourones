@@ -136,46 +136,48 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                 </style>
 
                 {/* Close & Favorite Buttons */}
-                <button 
-                    onClick={handleModalClose}
-                    style={{
-                        position: 'absolute',
-                        top: '1rem',
-                        right: '1rem',
-                        background: 'rgba(0, 0, 0, 0.1)',
-                        border: 'none',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        cursor: 'pointer',
-                        fontSize: '1.5rem',
-                        zIndex: 1001
-                    }}
-                >
-                    ×
-                </button>
+                <div style={{
+                    position: 'sticky',
+                    top: 0,
+                    backgroundColor: 'white',
+                    zIndex: 1001,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '1rem'
+                }}>
+                    <button 
+                        onClick={handleModalClose}
+                        style={{
+                            background: 'rgba(0, 0, 0, 0.1)',
+                            border: 'none',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            cursor: 'pointer',
+                            fontSize: '1.5rem'
+                        }}
+                    >
+                        ×
+                    </button>
 
-                <button 
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        toggleFavorite(space.id, e);
-                    }}
-                    style={{
-                        position: 'absolute',
-                        top: '1rem',
-                        right: '4rem',
-                        background: 'rgba(255, 255, 255, 0.9)',
-                        border: 'none',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        cursor: 'pointer',
-                        fontSize: '1.2rem',
-                        zIndex: 1001
-                    }}
-                >
-                    {favorites?.includes(space.id) ? '❤️' : '🤍'}
-                </button>
+                    <button 
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            toggleFavorite(space.id, e);
+                        }}
+                        style={{
+                            background: 'rgba(255, 255, 255, 0.9)',
+                            border: 'none',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            cursor: 'pointer',
+                            fontSize: '1.2rem'
+                        }}
+                    >
+                        {favorites?.includes(space.id) ? '❤️' : '🤍'}
+                    </button>
+                </div>
 
                 <div className="details-section" style={{ padding: '2rem' }}>
                     <div className="space-details-grid" style={{
