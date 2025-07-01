@@ -1,8 +1,26 @@
-﻿import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SearchBar from '../components/SearchBar';
 import SpaceModal from '../components/SpaceModal';
 import { mockSpaces } from '../data/mockData';
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { formatCurrency } from '../utils/format';
+
+const MAPS_API_KEY = 'AIzaSyD31NAQXFlL4rW-nZtJEx6ImfjBQAtXoJ0';
+
+const useGoogleMaps = () => {
+    const [loaded, setLoaded] = useState(false);
+    useEffect(() => {
+        if (window.google && window.google.maps) {
+            setLoaded(true);
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}`;
+        script.async = true;
+        script.onload = () => setLoaded(true);
+        document.body.appendChild(script);
+    }, []);
+    return loaded;
+};
 
 const BrowseSpaces = ({ setCurrentView }) => {
     const [selectedSpace, setSelectedSpace] = useState(null);
@@ -53,64 +71,40 @@ const BrowseSpaces = ({ setCurrentView }) => {
         );
     };
 
-    const MapView = () => (
-        <div style={{
-            height: '600px',
-            backgroundColor: '#f0f0f0',
-            borderRadius: '12px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23e2e8f0" fill-opacity="0.4"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E")'
-        }}>
-            <div style={{
-                position: 'absolute',
-                top: '1rem',
-                right: '1rem',
-                backgroundColor: 'white',
-                padding: '0.5rem',
-                borderRadius: '8px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                fontSize: '0.875rem',
-                color: '#666'
-            }}>
-                🗺️ Google Maps integration would go here
-            </div>
+    const mapsLoaded = useGoogleMaps();
+    const mapRef = useRef(null);
 
-            {/* Mock map pins for spaces */}
-            {spaces.map((space, index) => (
-                <div
-                    key={space.id}
-                    onClick={() => handleSpaceClick(space)}
-                    style={{
-                        position: 'absolute',
-                        left: `${20 + (index * 15)}%`,
-                        top: `${30 + (index * 10)}%`,
-                        backgroundColor: '#667eea',
-                        color: 'white',
-                        padding: '0.5rem 1rem',
-                        borderRadius: '20px',
-                        cursor: 'pointer',
-                        fontSize: '0.875rem',
-                        fontWeight: '600',
-                        boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)',
-                        transform: 'scale(1)',
-                        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                        animation: `fadeIn 0.6s ease ${index * 0.1}s both`
-                    }}
-                    onMouseEnter={(e) => {
-                        e.target.style.transform = 'scale(1.1)';
-                        e.target.style.boxShadow = '0 6px 16px rgba(102, 126, 234, 0.6)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.target.style.transform = 'scale(1)';
-                        e.target.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
-                    }}
-                >
-                    📍 ${space.price}/day
+    useEffect(() => {
+        if (!mapsLoaded || !mapRef.current) return;
+        const map = new window.google.maps.Map(mapRef.current, {
+            center: { lat: spaces[0]?.latitude || -41.2865, lng: spaces[0]?.longitude || 174.7762 },
+            zoom: 5,
+            fullscreenControl: false,
+            streetViewControl: false,
+            mapTypeControl: false
+        });
+        spaces.forEach(space => {
+            const marker = new window.google.maps.Marker({
+                position: { lat: space.latitude || -41.2865, lng: space.longitude || 174.7762 },
+                map,
+                title: space.title
+            });
+            marker.addListener('click', () => handleSpaceClick(space));
+        });
+    }, [mapsLoaded, spaces]);
+
+    const MapView = () => (
+        <div style={{ height: '600px', borderRadius: '12px', backgroundColor: '#f0f0f0' }} ref={mapRef}>
+            {!mapsLoaded && (
+                <div style={{
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    Loading map...
                 </div>
-            ))}
+            )}
         </div>
     );
 
@@ -384,7 +378,7 @@ const BrowseSpaces = ({ setCurrentView }) => {
                                                 color: '#1a202c',
                                                 fontFamily: 'Inter, sans-serif'
                                             }}>
-                                                ${space.price}
+                                            {formatCurrency(space.price)}
                                             </span>
                                             <span style={{
                                                 color: '#718096',
@@ -412,19 +406,19 @@ const BrowseSpaces = ({ setCurrentView }) => {
                                         marginBottom: '1rem'
                                     }}>
                                         <div style={{ padding: '0.5rem', backgroundColor: '#fef5e7', borderRadius: '6px', color: '#92400e' }}>
-                                            <div style={{ fontWeight: '600' }}>${Math.round(space.price / 8)}</div>
+                                            <div style={{ fontWeight: '600' }}>{formatCurrency(Math.round(space.price / 8))}</div>
                                             <div>per hour</div>
                                         </div>
                                         <div style={{ padding: '0.5rem', backgroundColor: '#eff6ff', borderRadius: '6px', color: '#1e40af' }}>
-                                            <div style={{ fontWeight: '600' }}>${space.price}</div>
+                                            <div style={{ fontWeight: '600' }}>{formatCurrency(space.price)}</div>
                                             <div>per day</div>
                                         </div>
                                         <div style={{ padding: '0.5rem', backgroundColor: '#f0fdf4', borderRadius: '6px', color: '#166534' }}>
-                                            <div style={{ fontWeight: '600' }}>${space.price * 25}</div>
+                                            <div style={{ fontWeight: '600' }}>{formatCurrency(space.price * 25)}</div>
                                             <div>per month</div>
                                         </div>
                                         <div style={{ padding: '0.5rem', backgroundColor: '#fdf2f8', borderRadius: '6px', color: '#be185d' }}>
-                                            <div style={{ fontWeight: '600' }}>${space.price * 300}</div>
+                                            <div style={{ fontWeight: '600' }}>{formatCurrency(space.price * 300)}</div>
                                             <div>per year</div>
                                         </div>
                                     </div>
