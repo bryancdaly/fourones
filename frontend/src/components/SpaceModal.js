@@ -126,14 +126,10 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                             gap: 1rem !important;
                         }
                         .booking-section {
-                            position: fixed !important;
-                            bottom: 0 !important;
-                            left: 0 !important;
-                            right: 0 !important;
-                            background: #f8fafc !important;
-                            padding: 1.5rem !important;
-                            box-shadow: 0 -4px 12px rgba(0,0,0,0.1) !important;
-                            z-index: 1001 !important;
+                            position: static !important;
+                            margin-top: 1rem !important;
+                            padding: 1rem !important;
+                            box-shadow: none !important;
                         }
                     }
                     `}
@@ -354,12 +350,7 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                             backgroundColor: '#f8fafc',
                             padding: '1.5rem',
                             borderRadius: '12px',
-                            position: 'fixed',
-                            bottom: '0',
-                            left: '0',
-                            right: '0',
-                            boxShadow: '0 -4px 12px rgba(0,0,0,0.1)',
-                            zIndex: 1001
+                            marginTop: '1rem'
                         }}>
                             <h4 style={{
                                 fontSize: '1.125rem',
