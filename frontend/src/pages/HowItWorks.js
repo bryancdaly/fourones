@@ -23,7 +23,7 @@ const HowItWorks = ({ setCurrentView }) => {
                     <p style={{ fontSize: '1.2rem', color: '#666' }}>Simple steps to find or list your perfect space</p>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', marginBottom: '4rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '4rem', marginBottom: '4rem' }}>
                     {/* For Space Hirers */}
                     <div>
                         <h2 style={{ fontSize: '2rem', marginBottom: '2rem', color: '#667eea' }}>For Space Hirers</h2>
