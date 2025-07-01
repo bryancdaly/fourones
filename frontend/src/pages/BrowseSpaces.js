@@ -4,7 +4,7 @@ import SpaceModal from '../components/SpaceModal';
 import { mockSpaces } from '../data/mockData';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 
-const MAPS_API_KEY = 'AIzaSyD31NAQXFlL4rW-nZtJEx6ImfjBQAtXoJ0';
+const MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 const BrowseSpaces = ({ setCurrentView }) => {
     const [selectedSpace, setSelectedSpace] = useState(null);

@@ -37,7 +37,6 @@ const Footer = ({ setCurrentView }) => {
                         <p style={{ color: '#a0aec0', marginBottom: '1rem', lineHeight: '1.6' }}>
                             Connecting amazing spaces with creative people worldwide. Turn your vision into reality with the perfect venue.
                         </p>
-                        {/* Social icons removed */}
                     </div>
 
                     {/* For Hirers */}
