@@ -157,6 +157,7 @@ const AuthForm = ({ type, setCurrentView }) => {
                                 >
                                     <option value="hirer">Space Hirer</option>
                                     <option value="provider">Space Provider</option>
+                                    <option value="service">Service Provider</option>
                                 </select>
                             </div>
                         )}

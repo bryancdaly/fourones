@@ -1,8 +1,24 @@
-﻿import React, { useState, useCallback } from 'react';
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import ServiceProviders from './ServiceProviders';
+import { formatCurrency } from '../utils/format';
 
 const MAPS_API_KEY = 'AIzaSyD31NAQXFlL4rW-nZtJEx6ImfjBQAtXoJ0';
+
+const useGoogleMaps = () => {
+    const [loaded, setLoaded] = useState(false);
+    useEffect(() => {
+        if (window.google && window.google.maps) {
+            setLoaded(true);
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}`;
+        script.async = true;
+        script.onload = () => setLoaded(true);
+        document.body.appendChild(script);
+    }, []);
+    return loaded;
+};
 
 const selectStyle = {
     width: '100%',
@@ -22,20 +38,23 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
     const [bookingDuration, setBookingDuration] = useState('day');
     const [startDate, setStartDate] = useState('');
     const [showServices, setShowServices] = useState(false);
-    const [map, setMap] = useState(null);
+    const mapsLoaded = useGoogleMaps();
+    const mapRef = useRef(null);
 
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: MAPS_API_KEY
-    });
-
-    const onMapLoad = useCallback(map => {
-        setMap(map);
-    }, []);
-
-    const onMapUnmount = useCallback(() => {
-        setMap(null);
-    }, []);
+    useEffect(() => {
+        if (!mapsLoaded || !space || !mapRef.current) return;
+        const mapInstance = new window.google.maps.Map(mapRef.current, {
+            center: { lat: space.latitude || -36.8485, lng: space.longitude || 174.7633 },
+            zoom: 15,
+            fullscreenControl: false,
+            streetViewControl: false,
+            mapTypeControl: false
+        });
+        new window.google.maps.Marker({
+            position: { lat: space.latitude || -36.8485, lng: space.longitude || 174.7633 },
+            map: mapInstance
+        });
+    }, [mapsLoaded, space]);
 
     if (!isOpen || !space) return null;
 
@@ -145,22 +164,7 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                     justifyContent: 'space-between',
                     padding: '1rem'
                 }}>
-                    <button 
-                        onClick={handleModalClose}
-                        style={{
-                            background: 'rgba(0, 0, 0, 0.1)',
-                            border: 'none',
-                            borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
-                            cursor: 'pointer',
-                            fontSize: '1.5rem'
-                        }}
-                    >
-                        ×
-                    </button>
-
-                    <button 
+                    <button
                         onClick={(e) => {
                             e.stopPropagation();
                             toggleFavorite(space.id, e);
@@ -176,6 +180,21 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                         }}
                     >
                         {favorites?.includes(space.id) ? '❤️' : '🤍'}
+                    </button>
+
+                    <button
+                        onClick={handleModalClose}
+                        style={{
+                            background: 'rgba(0, 0, 0, 0.1)',
+                            border: 'none',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            cursor: 'pointer',
+                            fontSize: '1.5rem'
+                        }}
+                    >
+                        ×
                     </button>
                 </div>
 
@@ -217,11 +236,12 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                             {/* Image Gallery */}
                             <div className="image-gallery" style={{
                                 display: 'flex',
-                                overflowX: 'scroll',
+                                overflowX: 'auto',
                                 gap: '1rem',
                                 marginBottom: '1.5rem',
                                 paddingBottom: '1rem',
-                                scrollbarWidth: 'none' // Hide scrollbar for modern browsers
+                                scrollbarWidth: 'thin',
+                                WebkitOverflowScrolling: 'touch'
                             }}>
                                 {space.images && space.images.map((img, idx) => (
                                     <img
@@ -251,45 +271,26 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                                     Location
                                 </h3>
                                 <div style={{ height: '200px', width: '100%', position: 'relative' }}>
-                                    {!isLoaded ? (
-                                        <div style={{
+                                    <div
+                                        ref={mapRef}
+                                        style={{
+                                            width: '100%',
                                             height: '100%',
-                                            background: '#f0f0f0',
                                             borderRadius: '8px',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center'
-                                        }}>
-                                            Loading map...
-                                        </div>
-                                    ) : (
-                                        <GoogleMap
-                                            mapContainerStyle={{
-                                                width: '100%',
+                                            background: '#f0f0f0'
+                                        }}
+                                    >
+                                        {!mapsLoaded && (
+                                            <div style={{
                                                 height: '100%',
-                                                borderRadius: '8px'
-                                            }}
-                                            center={{
-                                                lat: space.latitude || -36.8485,
-                                                lng: space.longitude || 174.7633
-                                            }}
-                                            zoom={15}
-                                            onLoad={onMapLoad}
-                                            onUnmount={onMapUnmount}
-                                            options={{
-                                                fullscreenControl: false,
-                                                streetViewControl: false,
-                                                mapTypeControl: false
-                                            }}
-                                        >
-                                            <Marker
-                                                position={{
-                                                    lat: space.latitude || -36.8485,
-                                                    lng: space.longitude || 174.7633
-                                                }}
-                                            />
-                                        </GoogleMap>
-                                    )}
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                            }}>
+                                                Loading map...
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
 
@@ -382,7 +383,7 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                                         }}
                                     >
                                         <div style={{ fontWeight: '600' }}>
-                                            ${Math.round(space.price * duration.multiplier)}
+                                            {formatCurrency(Math.round(space.price * duration.multiplier))}
                                         </div>
                                         <div style={{
                                             fontSize: '0.75rem',
@@ -424,15 +425,6 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                                             color: '#1a202c'
                                         }}
                                     />
-                                    <span style={{
-                                        position: 'absolute',
-                                        right: '1rem',
-                                        top: '50%',
-                                        transform: 'translateY(-50%)',
-                                        pointerEvents: 'none',
-                                        color: '#667eea',
-                                        fontSize: '1.3rem'
-                                    }}>📅</span>
                                 </div>
                                 <button
                                     onClick={handleBooking}
