@@ -2,6 +2,8 @@
 import SearchBar from '../components/SearchBar';
 import SpaceModal from '../components/SpaceModal';
 import { mockSpaces } from '../data/mockData';
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 
 const BrowseSpaces = ({ setCurrentView }) => {
     const [selectedSpace, setSelectedSpace] = useState(null);

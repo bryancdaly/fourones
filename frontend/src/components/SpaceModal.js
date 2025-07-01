@@ -4,6 +4,20 @@ import ServiceProviders from './ServiceProviders';
 
 const MAPS_API_KEY = 'AIzaSyD31NAQXFlL4rW-nZtJEx6ImfjBQAtXoJ0';
 
+const selectStyle = {
+    width: '100%',
+    padding: '0.75rem 2.5rem 0.75rem 1rem',
+    borderRadius: '6px',
+    border: '1px solid #e2e8f0',
+    fontSize: '1.1rem',
+    appearance: 'none',
+    WebkitAppearance: 'none',
+    MozAppearance: 'none',
+    background: 'white',
+    color: '#1a202c',
+    marginBottom: '1rem'
+};
+
 const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleFavorite }) => {
     const [bookingDuration, setBookingDuration] = useState('day');
     const [startDate, setStartDate] = useState('');
@@ -200,6 +214,30 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                                 📍 {space.location}
                             </p>
 
+                            {/* Image Gallery */}
+                            <div className="image-gallery" style={{
+                                width: '100%',
+                                overflowX: 'auto',
+                                whiteSpace: 'nowrap',
+                                marginBottom: '1.5rem'
+                            }}>
+                                {space.images && space.images.map((img, idx) => (
+                                    <img
+                                        key={idx}
+                                        src={img}
+                                        alt={`Space photo ${idx + 1}`}
+                                        style={{
+                                            display: 'inline-block',
+                                            width: '300px',
+                                            height: '200px',
+                                            objectFit: 'cover',
+                                            borderRadius: '12px',
+                                            marginRight: '1rem'
+                                        }}
+                                    />
+                                ))}
+                            </div>
+
                             {/* Map Section */}
                             <div style={{ marginBottom: '2rem' }}>
                                 <h3 style={{
@@ -363,19 +401,27 @@ const SpaceModal = ({ space, isOpen, onClose, setCurrentView, favorites, toggleF
                                 }}>
                                     Start Date
                                 </label>
-                                <input
-                                    type="date"
-                                    value={startDate}
-                                    onChange={(e) => setStartDate(e.target.value)}
-                                    min={new Date().toISOString().split('T')[0]}
-                                    style={{
-                                        width: '100%',
-                                        padding: '0.75rem',
-                                        marginBottom: '1rem',
-                                        borderRadius: '6px',
-                                        border: '1px solid #e2e8f0'
-                                    }}
-                                />
+                                <div style={{
+                                    position: 'relative',
+                                    marginBottom: '1rem'
+                                }}>
+                                    <input
+                                        type="date"
+                                        value={startDate}
+                                        onChange={(e) => setStartDate(e.target.value)}
+                                        min={new Date().toISOString().split('T')[0]}
+                                        style={selectStyle}
+                                    />
+                                    <span style={{
+                                        position: 'absolute',
+                                        right: '1rem',
+                                        top: '50%',
+                                        transform: 'translateY(-50%)',
+                                        pointerEvents: 'none',
+                                        color: '#667eea',
+                                        fontSize: '1.3rem'
+                                    }}>📅</span>
+                                </div>
                                 <button
                                     onClick={handleBooking}
                                     style={{
